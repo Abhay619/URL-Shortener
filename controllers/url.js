@@ -2,7 +2,9 @@ const urlModel = require("../models/url.js");
 const shortId = require("shortid");
 
 async function handleGetAllUrls(req, res) {
-    const allUrls = await urlModel.find({});
+    if(!req.user) return res.render("home");
+
+    const allUrls = await urlModel.find({createdBy: req.user._id});
     return res.render("home", {urls: allUrls,});
 }
 
@@ -16,6 +18,7 @@ async function handleCreateShortId(req, res){
         shortId : shortID,
         redirectUrl : body.url, 
         visitHistory: [],
+        createdBy: req.user._id,
     });
     return res.status(201).render("home",{id: shortID, urls: allUrls});
     // return res.status(201).json({status: "Success", id: shortID});
@@ -23,7 +26,7 @@ async function handleCreateShortId(req, res){
 
 async function handleRedirectUrl(req, res){
     const shortId = req.params.shortId;
-    const url = await urlModel.findOneAndUpdate({shortId},
+    const entry = await urlModel.findOneAndUpdate({shortId},
         {
             $push: {
                 visitHistory: {
@@ -32,7 +35,7 @@ async function handleRedirectUrl(req, res){
             }
         }
     );
-     res.status(201).redirect(url.redirectUrl);
+    res.status(201).redirect(entry.redirectUrl);
 }
 
 async function handleAnalyticsUrl(req, res){

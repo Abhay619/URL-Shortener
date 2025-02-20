@@ -5,7 +5,7 @@ const userRouter = require("./routes/user");
 const staticRouter = require("./routes/staticRouter");
 const cookieParser = require("cookie-parser");//This is used when we have to work with cookies
 
-const {restrictToLoggedInUser} = require("./middleware/auth");
+const {restrictToLoggedInUser, checkAuth} = require("./middleware/auth");
 const {connectMongoDb} = require("./connection");
 
 const port = 9001;
@@ -22,8 +22,8 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 
 
-app.use("/",staticRouter);
-app.use("/url", restrictToLoggedInUser , urlRouter); //Here we are using the restrictToLoggedInUser middleware as the inline middleware
+app.use("/", checkAuth,staticRouter);
+app.use("/url", restrictToLoggedInUser, urlRouter); //Here we are using the restrictToLoggedInUser middleware as the inline middleware
 app.use("/user",userRouter);
 
 app.listen(port, () => console.log(`Server is Live at : ${port}`));

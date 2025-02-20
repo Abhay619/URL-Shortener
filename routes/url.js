@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.route("/").post(handleCreateShortId);
 
-router.route("/url/:shortId").get(handleRedirectUrl);
+router.route("/:shortId").get(handleRedirectUrl);
 
 router.route("/analytics/:shortId").get(handleAnalyticsUrl);
 
