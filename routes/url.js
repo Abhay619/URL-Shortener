@@ -3,7 +3,7 @@ const {handleCreateShortId, handleRedirectUrl, handleAnalyticsUrl,handleGetAllUr
 
 const router = express.Router();
 
-router.route("/").post(handleCreateShortId).get(handleGetAllUrls);
+router.route("/").post(handleCreateShortId);
 
 router.route("/url/:shortId").get(handleRedirectUrl);
 

@@ -3,8 +3,8 @@ const {handleUserLogin, handleUserSignup, handleDisplaySignup, handleDisplayLogi
 
 const router = express.Router();
 
-router.route("/signup").get(handleDisplaySignup).post(handleUserSignup);
+router.route("/signup").post(handleUserSignup);
 
-router.route("/login").get(handleDisplayLogin).post(handleUserLogin);
+router.route("/login").post(handleUserLogin);
 
 module.exports = router;
