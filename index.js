@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path"); //this is path module used to handle directories and paths
 const urlRouter = require("./routes/url");
+const userRouter = require("./routes/user");
 
 const {connectMongoDb} = require("./connection");
 
@@ -18,5 +19,6 @@ app.use(express.urlencoded({extended: false}));
 
 
 app.use("/", urlRouter);
+app.use("/user",userRouter);
 
 app.listen(port, () => console.log(`Server is Live at : ${port}`));
