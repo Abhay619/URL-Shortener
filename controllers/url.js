@@ -1,6 +1,11 @@
 const urlModel = require("../models/url.js");
 const shortId = require("shortid");
 
+async function handleGetAllUrls(req, res) {
+    const allUrls = await urlModel.find({});
+    return res.render("home", {urls: allUrls,});
+}
+
 async function handleCreateShortId(req, res){
     const allUrls = await urlModel.find({});
     const shortID = shortId.generate();
@@ -36,10 +41,6 @@ async function handleAnalyticsUrl(req, res){
     return res.status(201).json({totalClicks: result.visitHistory.length, analytics: result.visitHistory});
 }
 
-async function handleGetAllUrls(req, res) {
-    const allUrls = await urlModel.find({});
-    return res.render("home", {urls: allUrls,});
-}
 
 module.exports = {handleCreateShortId,
     handleRedirectUrl,
