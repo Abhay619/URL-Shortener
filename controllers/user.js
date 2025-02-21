@@ -23,12 +23,13 @@ async function handleDisplayLogin(req, res){
 async function handleUserLogin(req, res){
     const {email, password} = req.body;
 
-    const user = await userModel.findOne({email, password});
+    const user = await userModel.findOne({email, password});//check whether eligible to park, if yes then who is parking
     if(!user) res.render("login", {error: "Invalid mail or password"});
 
-    const sessionId = uuidv4();
-    setUser(sessionId, user);
-    res.cookie("uid", sessionId);
+
+    // const sessionId = uuidv4();
+    const token = setUser(user);// Guard/Server is making a parking ticket using setUser, which needs the info of user so we will pass it as a parameter, and now the token is made and given to user 
+    res.cookie("uid", token);// this is means user has put the parking ticket in his wallet and whenever he'll take the vehicle/ whenever he make any req he will show this ticket in cookies/wallet
     return res.redirect("/");
 }
 

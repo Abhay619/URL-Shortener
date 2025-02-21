@@ -9,7 +9,7 @@ async function handleGetAllUrls(req, res) {
 }
 
 async function handleCreateShortId(req, res){
-    const allUrls = await urlModel.find({});
+    const allUrls = await urlModel.find({createdBy: req.user._id});
     const shortID = shortId.generate();
     const body = req.body;
     if(!body.url) res.status(400).json({error : "URL is required"});
