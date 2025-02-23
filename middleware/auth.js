@@ -2,11 +2,11 @@ const { getUser } = require("../service/auth");
 
 async function restrictToLoggedInUser(req, res, next){
     
-    const userId = req.cookies?.uid;//this means whenever a request is made, we will check cookies of the user, if it has a jwt token with the name of uid, if yes then keep the token code in userId var.
+    const token = req.cookies?.uid;//this means whenever a request is made, we will check cookies of the user, if it has a jwt token with the name of uid, if yes then keep the token code in userId var.
 
-    if(!userId) return res.redirect("/login");
+    if(!token) return res.redirect("/login");
 
-    const user = getUser(userId);// So now will use the getUser funtion, details in Service/auth.js 
+    const user = getUser(token);// So now will use the getUser funtion, details in Service/auth.js 
 
     if(!user) return res.redirect("/login");
 
